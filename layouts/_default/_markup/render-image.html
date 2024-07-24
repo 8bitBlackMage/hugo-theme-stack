@@ -4,7 +4,6 @@
 {{- $Width := 0 -}}
 {{- $Height := 0 -}}
 {{- $Srcset := "" -}}
-
 {{/* SVG and external images won't work with gallery layout, because their width and height attributes are unknown */}}
 {{- $galleryImage := false -}}
 
@@ -25,6 +24,9 @@
 	{{- end -}}
 {{- end -}}
 
+
+
+<figure>
 <img src="{{ $Permalink }}"
 	{{ with $Width }}width="{{ . }}"{{ end }}
 	{{ with $Height }}height="{{ . }}"{{ end }}
@@ -39,3 +41,16 @@
 		data-flex-basis="{{ div (mul $image.Width 240) $image.Height }}px"
 	{{ end }}
 >
+{{- if .Title }}
+	{{- $slice := split .Title "\\" }}
+	{{- range $v := $slice}}
+	{{- $tv := trim $v " "}}
+	{{- if in $v "https://" }}
+	<figcaption><a href= "{{$tv | safeURL}} "target="_blank">{{ $tv }} </a></figcaption>
+	{{- else }}
+	<figcaption> {{ $tv }} </figcaption>
+{{- end}}
+{{- end}}
+{{- end }}
+
+</figure>
