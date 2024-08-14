@@ -1,0 +1,93 @@
+<style>
+    .socials{ 
+        margin: auto;
+        float:left;
+        padding-bottom: 10px; 
+        color: var(--body-text-color);
+        text-transform:lowercase;
+           
+    }
+    
+    .button {
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      display: flex;
+      font-size: 13px;
+      margin: auto;
+      cursor: pointer;
+      border-radius: var(--tag-border-radius);
+      transition: background-color 0.5s ease;
+    }
+    .button:hover {
+        filter: brightness(85%);
+    }
+    .mastodonButton
+    {
+        background-color: #563ACC; 
+    }
+
+    .tumblrButton
+    {
+        background-color: #34526f;
+    }
+    .redditButton
+    {
+        background-color: #FF4500;
+    }
+
+</style>
+
+
+<hr style="border-top: 1px var(--accent-color-darker)">
+
+
+<section class="socials">
+    
+    Share this Article:
+
+    <script>
+        /* Generate a share link for the user's Mastodon domain */
+        function ShareToMastodon(e){
+            // Get the source text
+            src = "{{- .Page.Permalink }} \n\n Check out this blog post!"
+            // Get the Mastodon domain
+            domain = prompt("Enter your Mastodon domain", "mastodon.social");
+            if (domain == "" || domain == null){
+                return;
+            }
+            // Build the URL
+            url = "https://" + domain + "/share?text=" + src;
+
+            // Open a window on the share page
+            window.open(url, '_blank');
+        }
+        function ShareToTumblr(e){
+            
+            tags = '{{    range (.GetTerms "tags") }} {{.LinkTitle}},{{end}}'     
+            url = 'http://tumblr.com/widgets/share/tool?canonicalUrl={{- .Page.Permalink }}&title={{ .Title }}&tags=' + tags
+            window.open(url, '_blank');
+        }
+
+        function ShareToReddit(e){
+            tags = '{{    range (.GetTerms "tags") }} {{.LinkTitle}},{{end}}'     
+            url = 'http://reddit.com/submit/?url={{- .Page.Permalink }}&title={{.Title}}&tags=' +tags
+            window.open(url,'_blank');
+        }
+    </script>
+
+    <div class="button mastodonButton" onclick="ShareToMastodon()" >
+       Mastodon
+    </div>
+
+
+    <div class="button tumblrButton" onclick="ShareToTumblr()" >
+        Tumblr
+    </div>
+
+    <div class = "button redditButton" onclick="ShareToReddit()">
+        Reddit
+    </div>
+
+</section>

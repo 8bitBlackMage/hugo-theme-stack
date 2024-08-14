@@ -1,62 +1,14 @@
 <footer class="article-footer">
     {{ partial "article/components/tags" . }}
-    <section>
-        {{- if eq .Section "post" }}
-        {{ $text :=  (printf "Check out &quot;%s&quot; at https://www.lilithblackmage.co.uk%s &nbsp;" .Title .RelPermalink) }}
-        <style>
-            .button {
-              background-color: #563ACC; 
-              
-              border: none;
-              color: white;
-              padding: 15px;
-              text-decoration: none;
-              display: flex;
-              font-size: 16px;
-              margin: auto;
-              cursor: pointer;
-              border-radius: 4px;
-            }
-            .button:hover{
-                background-color: #2F0C7A;
-            }
-            </style>
 
-            <div class="button" onclick="ShareToMastodon(this)" >
-            {{ partial "helper/icon" "mastodon" }}  Share on Mastodon
-            </div>
-            <script>
-                /* Generate a share link for the user's Mastodon domain */
-                function ShareToMastodon(e){
-                    // Get the source text
-                    src = "{{- .Page.Permalink }} \n\n Check out this blog post!"
-                    // Get the Mastodon domain
-                    domain = prompt("Enter your Mastodon domain", "mastodon.social");
-                    if (domain == "" || domain == null){
-                        return;
-                    }
-                    // Build the URL
-                    url = "https://" + domain + "/share?text=" + src;
+    {{- if eq .Section "post" }}
+        {{partial "article/components/socials" .}}
 
-                    // Open a window on the share page
-                    window.open(url, '_blank');
-                }
-            </script>
-    
-    
-    </section>
-    {{ end }}
-    {{ if and (.Site.Params.article.license.enabled) (not (eq .Params.license false)) }}
-    <section class="article-copyright">
-        {{ partial "helper/icon" "copyright" }}
-        <span>{{ default .Site.Params.article.license.default .Params.license | markdownify }}</span>
-    </section>
-    {{ end }}
-
+    {{- end -}}
     {{- if ne .Lastmod .Date -}}
     <section class="article-lastmod">
         {{ partial "helper/icon" "clock" }}
-        <span>
+        <span>  
             {{ T "article.lastUpdatedOn" }} {{ .Lastmod.Format ( or .Site.Params.dateFormat.lastUpdated "Jan 02, 2006 15:04 MST" ) }}
         </span>
     </section>
